@@ -18,7 +18,7 @@ paths:
     post:
       requestBody:
         description: >-
-          Retrieve Products from Ziqni database by unique Product ID's or any other POST body
+          Handle POST body
           parameters using the POST method
         content:
           application/json:
