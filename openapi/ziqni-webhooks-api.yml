@@ -1,0 +1,561 @@
+openapi: 3.0.2
+info:
+  title: ZIQNI Webhook Services
+  version: 3.0.0
+  description: Webhook subscriber services intended use is to assist in the creation of a subscriber service.
+  contact:
+    name: Sales
+    url: 'https://www.ziqni.com'
+    email: sales@ziqni.com
+  license:
+    name: Proprietary and confidential
+servers:
+  -
+    url: 'https://your.server.com'
+    description: Your server endpoint
+paths:
+  /ziqni/webhook:
+    post:
+      requestBody:
+        description: >-
+          Retrieve Products from Ziqni database by unique Product ID's or any other POST body
+          parameters using the POST method
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequestBody'
+      tags:
+        - webhooks
+      parameters:
+        -
+          name: Accept-Encoding
+          description: gzip
+          schema:
+            default: gzip
+            type: string
+          in: header
+        -
+          name: User_Agent
+          description: Ziqni/1.0
+          schema:
+            default: Ziqni/1.0
+            type: string
+          in: header
+        -
+          name: X-Account
+          description: Unique identifier of your account
+          schema:
+            type: string
+          in: header
+        -
+          style: simple
+          explode: false
+          name: X-OnEvent
+          description: depending which webhook you are selecting
+          schema:
+            enum:
+              - onAchievementCreated
+              - onAchievementRewardIssued
+              - onAchievementTriggered
+              - onCompetitionCreated
+              - onCompetitionStarted
+              - onCompetitionFinished
+              - onCompetitionCancelled
+              - onCompetitionRewardIssued
+              - onContestCreated
+              - onContestStarted
+              - onContestFinished
+              - onContestFinalised
+              - onContestCancelled
+              - onContestRewardIssued
+              - onNewMember
+              - onNewProduct
+            type: string
+          in: header
+      responses:
+        '200':
+          description: A webhook was triggered successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: The specified resource was not found
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Method not allowed
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Internal server error
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                Example Value:
+                  $ref: '#/components/examples/GetErrorResponse'
+          description: Service unavailable
+      security:
+        -
+          adminApiKey: []
+      operationId: onWebhook
+      summary: Handle new product webhook notifications
+      description: Example server implementation used to subscribe to webhooks
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    NewProduct:
+      type: object
+      properties:
+        productId:
+          description: Product identifier
+          type: string
+        productRefId:
+          description: Product Reference id
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    NewMember:
+      type: object
+      properties:
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    CompetitionCreated:
+      type: object
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    CompetitionStarted:
+      type: object
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    CompetitionFinished:
+      type: object
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    CompetitionCancelled:
+      type: object
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    CompetitionRewardIssued:
+      type: object
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestCreated:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestStarted:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestFinished:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestFinalised:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestCancelled:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestRewardCreated:
+      type: object
+      properties:
+        rewardId:
+          description: Reward identifier
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestRewardIssued:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    ContestRewardClaimed:
+      type: object
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    AchievementCreated:
+      type: object
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    AchievementTriggered:
+      type: object
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    AchievementRewardCreated:
+      type: object
+      properties:
+        rewardId:
+          description: Reward identifier
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    AchievementRewardIssued:
+      type: object
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    AchievementRewardClaimed:
+      type: object
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+        resourcePath:
+          description: Resource path
+          type: string
+        timestamp:
+          description: Time stamp UTC
+          type: string
+    Response:
+      required:
+        - results
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      required:
+        - errorCode
+        - message
+      properties:
+        modelId:
+          description: >-
+            The identifier of the record this error relates to (This value only gets set if the
+            error could relate to more than one object)
+          type: string
+          example: 1234abc
+        errorCode:
+          description: A unique system identifier that describes this specific error.
+          type: integer
+          example: 1007
+        message:
+          description: The error description.
+          type: string
+          example: The error was caused by an invalid ID being submitted
+    WebhookRequestBody:
+      anyOf:
+        -
+          type: object
+        -
+          $ref: '#/components/schemas/NewProduct'
+        -
+          $ref: '#/components/schemas/NewMember'
+        -
+          $ref: '#/components/schemas/CompetitionCreated'
+        -
+          $ref: '#/components/schemas/CompetitionStarted'
+        -
+          $ref: '#/components/schemas/CompetitionFinished'
+        -
+          $ref: '#/components/schemas/CompetitionCancelled'
+        -
+          $ref: '#/components/schemas/CompetitionRewardIssued'
+        -
+          $ref: '#/components/schemas/ContestCreated'
+        -
+          $ref: '#/components/schemas/ContestStarted'
+        -
+          $ref: '#/components/schemas/ContestFinished'
+        -
+          $ref: '#/components/schemas/ContestFinalised'
+        -
+          $ref: '#/components/schemas/ContestCancelled'
+        -
+          $ref: '#/components/schemas/ContestRewardCreated'
+        -
+          $ref: '#/components/schemas/ContestRewardIssued'
+        -
+          $ref: '#/components/schemas/ContestRewardClaimed'
+        -
+          $ref: '#/components/schemas/AchievementCreated'
+        -
+          $ref: '#/components/schemas/AchievementTriggered'
+        -
+          $ref: '#/components/schemas/AchievementRewardCreated'
+        -
+          $ref: '#/components/schemas/AchievementRewardIssued'
+        -
+          $ref: '#/components/schemas/AchievementRewardClaimed'
+      description: ''
+    WebhookRequest:
+      description: ''
+      required:
+        - postToUrl
+        - accountId
+        - body
+        - onEventType
+      type: object
+      properties:
+        accountId:
+          description: ''
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        postToUrl:
+          description: ''
+          type: string
+        auth:
+          type: object
+          additionalProperties:
+            type: string
+        body:
+          $ref: '#/components/schemas/WebhookRequestBody'
+          description: ''
+        onEventType:
+          description: ''
+          type: string
+  examples:
+    GetErrorResponse:
+      summary: Example Value
+      value:
+        meta:
+          resultCount: 0
+          errorCount: 1
+          skip: 0
+          limit: 100
+        results: []
+        errors:
+          -
+            errorCode: 1007
+            message: The error was caused by an invalid ID being submitted
+            detail: []
+  securitySchemes:
+    adminApiKey:
+      type: apiKey
+      description: The admin API Key generated from Ziqni back office.
+      name: X-API-KEY
+      in: header
+tags:
+  -
+    name: webhooks
+    description: Perform REST operations on Webhooks
+externalDocs:
+  description: Find out more about Ziqni
+  url: 'https://www.ziqni.io'
