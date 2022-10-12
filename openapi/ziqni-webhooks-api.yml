@@ -142,7 +142,7 @@ paths:
         -
           adminApiKey: []
       operationId: onWebhook
-      summary: Handle new product webhook notifications
+      summary: Handle webhook notifications
       description: Example server implementation used to subscribe to webhooks
       x-codegen-request-body-name: body
 components:
