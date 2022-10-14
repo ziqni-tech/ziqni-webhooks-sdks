@@ -151,7 +151,7 @@ paths:
           description: Service unavailable
       security:
       - adminApiKey: []
-      summary: Handle new product webhook notifications
+      summary: Handle notifications
       tags:
       - webhooks
       x-codegen-request-body-name: body
@@ -172,288 +172,6 @@ components:
           message: The error was caused by an invalid ID being submitted
           detail: []
   schemas:
-    NewProduct:
-      properties:
-        productId:
-          description: Product identifier
-          type: string
-        productRefId:
-          description: Product Reference id
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    NewMember:
-      properties:
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    CompetitionCreated:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    CompetitionStarted:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    CompetitionFinished:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    CompetitionCancelled:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    CompetitionRewardIssued:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestCreated:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestStarted:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestFinished:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestFinalised:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestCancelled:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestRewardCreated:
-      properties:
-        rewardId:
-          description: Reward identifier
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestRewardIssued:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    ContestRewardClaimed:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    AchievementCreated:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    AchievementTriggered:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    AchievementRewardCreated:
-      properties:
-        rewardId:
-          description: Reward identifier
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    AchievementRewardIssued:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
-    AchievementRewardClaimed:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-        resourcePath:
-          description: Resource path
-          type: string
-        timestamp:
-          description: Time stamp UTC
-          type: string
-      type: object
     Response:
       properties:
         errors:
@@ -530,9 +248,356 @@ components:
       required:
       - accountId
       - body
+      - headers
       - onEventType
       - postToUrl
       type: object
+    AchievementCreated:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementCreated_allOf'
+    AchievementRewardClaimed:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementRewardClaimed_allOf'
+    AchievementRewardCreated:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementRewardCreated_allOf'
+    AchievementRewardIssued:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementRewardIssued_allOf'
+    AchievementTriggered:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementTriggered_allOf'
+    CompetitionCancelled:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
+    CompetitionCreated:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/CompetitionCreated_allOf'
+    CompetitionFinished:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
+    CompetitionRewardIssued:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/CompetitionRewardIssued_allOf'
+    CompetitionStarted:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
+    ContestCancelled:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestCancelled_allOf'
+    ContestCreated:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestCancelled_allOf'
+    ContestFinalised:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestCancelled_allOf'
+    ContestFinished:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestCancelled_allOf'
+    ContestRewardClaimed:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestRewardClaimed_allOf'
+    ContestRewardCreated:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/AchievementRewardCreated_allOf'
+    ContestRewardIssued:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestRewardIssued_allOf'
+    ContestStarted:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/ContestCancelled_allOf'
+    NewMember:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/NewMember_allOf'
+    NewProduct:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/NewProduct_allOf'
+    OptParamModels:
+      properties:
+        customFields:
+          additionalProperties: true
+          type: object
+        tags:
+          description: A list of id's used to tag models
+          items:
+            type: string
+          type: array
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+        objectType:
+          description: ""
+          type: string
+      required:
+      - objectType
+      type: object
+    Reward:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/Reward_allOf'
+      description: ""
+      required:
+      - entityId
+      - rewardId
+      - rewardTypeId
+      - rewardTypeKey
+      - value
+      type: object
+    Award:
+      allOf:
+      - $ref: '#/components/schemas/OptParamModels'
+      - $ref: '#/components/schemas/Award_allOf'
+      description: ""
+      required:
+      - entityId
+      - rewardId
+      - rewardTypeId
+      - rewardTypeKey
+      - value
+      type: object
+    AchievementCreated_allOf:
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+      required:
+      - achievementId
+      type: object
+      example: null
+    AchievementRewardClaimed_allOf:
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        award:
+          $ref: '#/components/schemas/Award'
+      required:
+      - achievementId
+      - award
+      - memberId
+      type: object
+      example: null
+    AchievementRewardCreated_allOf:
+      properties:
+        reward:
+          $ref: '#/components/schemas/Reward'
+      required:
+      - reward
+      type: object
+      example: null
+    AchievementRewardIssued_allOf:
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+      required:
+      - achievementId
+      - awardId
+      - memberId
+      type: object
+      example: null
+    AchievementTriggered_allOf:
+      properties:
+        achievementId:
+          description: Achievement identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+      type: object
+      example: null
+    CompetitionCancelled_allOf:
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+      required:
+      - competitionId
+      type: object
+      example: null
+    CompetitionCreated_allOf:
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+      type: object
+      example: null
+    CompetitionRewardIssued_allOf:
+      properties:
+        competitionId:
+          description: Competition identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+      required:
+      - awardId
+      - competitionId
+      - memberId
+      type: object
+      example: null
+    ContestCancelled_allOf:
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+      required:
+      - contestId
+      type: object
+      example: null
+    ContestRewardClaimed_allOf:
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        award:
+          $ref: '#/components/schemas/Reward'
+      required:
+      - award
+      - contestId
+      - memberId
+      type: object
+      example: null
+    ContestRewardIssued_allOf:
+      properties:
+        contestId:
+          description: Contest identifier
+          type: string
+        memberId:
+          description: Member identifier
+          type: string
+        awardId:
+          description: Award identifier
+          type: string
+      required:
+      - awardId
+      - contestId
+      - memberId
+      type: object
+      example: null
+    NewMember_allOf:
+      properties:
+        memberId:
+          description: Member identifier
+          type: string
+        memberRefId:
+          description: Member Reference id
+          type: string
+      required:
+      - memberId
+      type: object
+      example: null
+    NewProduct_allOf:
+      properties:
+        productId:
+          description: Product identifier
+          type: string
+        productRefId:
+          description: Product Reference id
+          type: string
+      required:
+      - productId
+      type: object
+      example: null
+    Reward_allOf:
+      properties:
+        rewardId:
+          description: ""
+          type: string
+        entityId:
+          description: ""
+          type: string
+        rewardTypeKey:
+          description: ""
+          type: string
+        rewardTypeId:
+          description: ""
+          type: string
+        value:
+          description: ""
+          format: double
+          type: number
+      required:
+      - entityId
+      - rewardId
+      - rewardTypeId
+      - rewardTypeKey
+      - value
+      example: null
+    Award_allOf:
+      properties:
+        awardId:
+          description: ""
+          type: string
+        rewardId:
+          description: ""
+          type: string
+        entityId:
+          description: ""
+          type: string
+        rewardTypeKey:
+          description: ""
+          type: string
+        rewardTypeId:
+          description: ""
+          type: string
+        value:
+          description: ""
+          format: double
+          type: number
+      required:
+      - awardId
+      - entityId
+      - rewardId
+      - rewardTypeId
+      - rewardTypeKey
+      - value
+      example: null
   securitySchemes:
     adminApiKey:
       description: The admin API Key generated from Ziqni back office.

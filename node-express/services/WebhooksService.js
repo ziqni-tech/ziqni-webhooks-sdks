@@ -2,7 +2,7 @@
 const Service = require('./Service');
 
 /**
-* Handle new product webhook notifications
+* Handle notifications
 * Example server implementation used to subscribe to webhooks
 *
 * acceptEncoding String gzip (optional)
