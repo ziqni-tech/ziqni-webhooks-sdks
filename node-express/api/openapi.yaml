@@ -267,7 +267,7 @@ components:
     AchievementRewardIssued:
       allOf:
       - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementRewardIssued_allOf'
+      - $ref: '#/components/schemas/AchievementRewardClaimed_allOf'
     AchievementTriggered:
       allOf:
       - $ref: '#/components/schemas/OptParamModels'
@@ -412,26 +412,6 @@ components:
       - reward
       type: object
       example: null
-    AchievementRewardIssued_allOf:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        awardId:
-          description: Award identifier
-          type: string
-      required:
-      - achievementId
-      - awardId
-      - memberId
-      type: object
-      example: null
     AchievementTriggered_allOf:
       properties:
         achievementId:
@@ -469,11 +449,10 @@ components:
         memberId:
           description: Member identifier
           type: string
-        awardId:
-          description: Award identifier
-          type: string
+        award:
+          $ref: '#/components/schemas/Award'
       required:
-      - awardId
+      - award
       - competitionId
       - memberId
       type: object
@@ -511,11 +490,10 @@ components:
         memberId:
           description: Member identifier
           type: string
-        awardId:
-          description: Award identifier
-          type: string
+        award:
+          $ref: '#/components/schemas/Award'
       required:
-      - awardId
+      - award
       - contestId
       - memberId
       type: object

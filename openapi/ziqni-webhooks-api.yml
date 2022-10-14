@@ -303,7 +303,7 @@ components:
         -
           required:
             - achievementId
-            - awardId
+            - award
             - memberId
           type: object
           properties:
@@ -316,9 +316,9 @@ components:
             memberRefId:
               description: Member Reference id
               type: string
-            awardId:
+            award:
+              $ref: '#/components/schemas/Award'
               description: Award identifier
-              type: string
     AchievementTriggered:
       allOf:
         -
@@ -375,7 +375,7 @@ components:
           $ref: '#/components/schemas/OptParamModels'
         -
           required:
-            - awardId
+            - award
             - competitionId
             - memberId
           type: object
@@ -386,9 +386,9 @@ components:
             memberId:
               description: Member identifier
               type: string
-            awardId:
+            award:
+              $ref: '#/components/schemas/Award'
               description: Award identifier
-              type: string
     CompetitionStarted:
       allOf:
         -
@@ -487,7 +487,7 @@ components:
           $ref: '#/components/schemas/OptParamModels'
         -
           required:
-            - awardId
+            - award
             - contestId
             - memberId
           type: object
@@ -498,9 +498,9 @@ components:
             memberId:
               description: Member identifier
               type: string
-            awardId:
+            award:
+              $ref: '#/components/schemas/Award'
               description: Award identifier
-              type: string
     ContestStarted:
       allOf:
         -
