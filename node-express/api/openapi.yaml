@@ -1,162 +1,701 @@
 openapi: 3.0.2
 info:
-  contact:
-    email: sales@ziqni.com
-    name: Sales
-    url: https://www.ziqni.com
-  description: Webhook subscriber services intended use is to assist in the creation
-    of a subscriber service.
-  license:
-    name: Proprietary and confidential
   title: ZIQNI Webhook Services
   version: 3.0.0
-externalDocs:
-  description: Find out more about Ziqni
-  url: https://www.ziqni.io
+  description: Webhook subscriber services intended use is to assist in the creation of a subscriber service.
+  contact:
+    name: Sales
+    url: 'https://www.ziqni.com'
+    email: sales@ziqni.com
+  license:
+    name: Proprietary and confidential
 servers:
-- description: Your server endpoint
-  url: https://your.server.com
-tags:
-- description: Perform REST operations on Webhooks
-  name: webhooks
+  -
+    url: 'https://your.server.com'
+    description: Your server endpoint
 paths:
   /ziqni/webhook:
     post:
-      description: Example server implementation used to subscribe to webhooks
-      operationId: onWebhook
-      parameters:
-      - description: gzip
-        explode: false
-        in: header
-        name: Accept-Encoding
-        required: false
-        schema:
-          default: gzip
-          type: string
-        style: simple
-      - description: Ziqni/1.0
-        explode: false
-        in: header
-        name: User_Agent
-        required: false
-        schema:
-          default: Ziqni/1.0
-          type: string
-        style: simple
-      - description: Unique identifier of your account
-        explode: false
-        in: header
-        name: X-Account
-        required: false
-        schema:
-          type: string
-        style: simple
-      - description: depending which webhook you are selecting
-        explode: false
-        in: header
-        name: X-OnEvent
-        required: false
-        schema:
-          enum:
-          - onAchievementCreated
-          - onAchievementRewardIssued
-          - onAchievementTriggered
-          - onCompetitionCreated
-          - onCompetitionStarted
-          - onCompetitionFinished
-          - onCompetitionCancelled
-          - onCompetitionRewardIssued
-          - onContestCreated
-          - onContestStarted
-          - onContestFinished
-          - onContestFinalised
-          - onContestCancelled
-          - onContestRewardIssued
-          - onNewMember
-          - onNewProduct
-          type: string
-        style: simple
       requestBody:
+        description: >-
+          Retrieve Products from Ziqni database by unique Product ID's or any other POST body
+          parameters using the POST method
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/WebhookRequestBody'
-        description: Retrieve Products from Ziqni database by unique Product ID's
-          or any other POST body parameters using the POST method
+      tags:
+        - webhooks
+      parameters:
+        -
+          name: Accept-Encoding
+          description: gzip
+          schema:
+            default: gzip
+            type: string
+          in: header
+        -
+          name: User-Agent
+          description: ZIQNI/1.0
+          schema:
+            default: Ziqni/1.0
+            type: string
+          in: header
+        -
+          name: X-Account
+          description: Unique identifier of your account
+          schema:
+            type: string
+          in: header
+        -
+          style: simple
+          explode: false
+          name: X-OnEvent
+          description: depending which webhook you are selecting
+          schema:
+            enum:
+              - onAchievementCreated
+              - onAchievementRewardIssued
+              - onAchievementTriggered
+              - onCompetitionCreated
+              - onCompetitionStarted
+              - onCompetitionFinished
+              - onCompetitionCancelled
+              - onCompetitionRewardIssued
+              - onContestCreated
+              - onContestStarted
+              - onContestFinished
+              - onContestFinalised
+              - onContestCancelled
+              - onContestRewardIssued
+              - onNewMember
+              - onNewProduct
+            type: string
+          in: header
+        -
+          name: X-Event
+          description: Event type code
+          schema:
+            type: string
+          in: header
+        -
+          name: X-WebhookId
+          description: 'The identifier of this webhook '
+          schema: {}
+          in: header
       responses:
-        "200":
+        '200':
           description: A webhook was triggered successfully
-        "400":
+        '400':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Bad Request
-        "401":
+        '401':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Unauthorized
-        "403":
+        '403':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Forbidden
-        "404":
+        '404':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: The specified resource was not found
-        "405":
+        '405':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Method not allowed
-        "500":
+        '500':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Internal server error
-        "503":
+        '503':
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
               examples:
                 Example Value:
                   $ref: '#/components/examples/GetErrorResponse'
-              schema:
-                $ref: '#/components/schemas/Response'
           description: Service unavailable
       security:
-      - adminApiKey: []
+        -
+          adminApiKey: []
+      operationId: onWebhook
       summary: Handle notifications
-      tags:
-      - webhooks
+      description: Example server implementation used to subscribe to webhooks
       x-codegen-request-body-name: body
-      x-eov-operation-handler: controllers/WebhooksController
 components:
+  schemas:
+    Response:
+      required:
+        - results
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      required:
+        - errorCode
+        - message
+      properties:
+        modelId:
+          description: >-
+            The identifier of the record this error relates to (This value only gets set if the
+            error could relate to more than one object)
+          type: string
+          example: 1234abc
+        errorCode:
+          description: A unique system identifier that describes this specific error.
+          type: integer
+          example: 1007
+        message:
+          description: The error description.
+          type: string
+          example: The error was caused by an invalid ID being submitted
+    WebhookRequest:
+      description: ''
+      required:
+        - postToUrl
+        - accountId
+        - body
+        - onEventType
+        - headers
+      type: object
+      properties:
+        accountId:
+          description: ''
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+        postToUrl:
+          description: ''
+          type: string
+        auth:
+          type: object
+          additionalProperties:
+            type: string
+        body:
+          $ref: '#/components/schemas/WebhookRequestBody'
+          description: ''
+        onEventType:
+          description: ''
+          type: string
+    OptParamModels:
+      required:
+        - objectType
+        - accountId
+        - spaceName
+      type: object
+      properties:
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        objectType:
+          description: ''
+          type: string
+        constraints:
+          description: 'Constraints applied to this object, like hasRewards etc.'
+          type: array
+          items:
+            type: string
+        accountId:
+          description: The account identifier
+          type: string
+        spaceName:
+          description: The space name
+          type: string
+    AchievementRewardIssued:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Award'
+        -
+          required:
+            - achievementId
+          type: object
+          properties:
+            achievementId:
+              description: Achievement identifier
+              type: string
+            achievementName:
+              description: First 120 characters of the default name
+              type: string
+    AchievementRewardCreated:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Reward'
+        -
+          required:
+            - achievementId
+          type: object
+          properties:
+            achievementId:
+              description: Achievement identifier
+              type: string
+            achievementName:
+              description: First 120 characters of the default name
+              type: string
+    AchievementRewardClaimed:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Award'
+        -
+          required:
+            - achievementId
+          type: object
+          properties:
+            achievementId:
+              description: Achievement identifier
+              type: string
+            achievementName:
+              description: First 120 characters of the default name
+              type: string
+    AchievementTriggered:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          type: object
+          properties:
+            achievementId:
+              description: Achievement identifier
+              type: string
+            memberId:
+              description: Member identifier
+              type: string
+            memberRefId:
+              description: Member Reference id
+              type: string
+            achievementName:
+              description: First 120 characters of the default name
+              type: string
+    AchievementCreated:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - achievementId
+          type: object
+          properties:
+            achievementId:
+              description: Achievement identifier
+              type: string
+            achievementName:
+              description: First 120 characters of the default name
+              type: string
+    CompetitionCancelled:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - competitionId
+          type: object
+          properties:
+            competitionId:
+              description: Competition identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    CompetitionCreated:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          type: object
+          properties:
+            competitionId:
+              description: Competition identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    CompetitionFinished:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - competitionId
+          type: object
+          properties:
+            competitionId:
+              description: Competition identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    CompetitionRewardIssued:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Award'
+        -
+          required:
+            - competitionId
+          type: object
+          properties:
+            competitionId:
+              description: Competition identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    CompetitionStarted:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - competitionId
+          type: object
+          properties:
+            competitionId:
+              description: Competition identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    ContestCancelled:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            competitionName:
+              description: First 120 characters of the default name
+              type: string
+    ContestCreated:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestFinalised:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestFinished:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestRewardClaimed:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Award'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestRewardCreated:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Reward'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestRewardIssued:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          $ref: '#/components/schemas/Award'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    ContestStarted:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
+    NewMember:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - memberId
+          type: object
+          properties:
+            memberId:
+              description: Member identifier
+              type: string
+            memberRefId:
+              description: Member Reference id
+              type: string
+            memberName:
+              description: First 120 characters of the default name
+              type: string
+    NewProduct:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - productId
+          type: object
+          properties:
+            productId:
+              description: Product identifier
+              type: string
+            productRefId:
+              description: Product Reference id
+              type: string
+            productName:
+              description: First 120 characters of the default name
+              type: string
+    Reward:
+      description: ''
+      required:
+        - rewardId
+        - entityId
+        - rewardTypeKey
+        - rewardTypeId
+        - value
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - entityId
+            - rewardId
+            - rewardTypeId
+            - rewardTypeKey
+            - value
+          properties:
+            rewardId:
+              description: ''
+              type: string
+            entityId:
+              description: ''
+              type: string
+            rewardTypeKey:
+              description: ''
+              type: string
+            rewardTypeId:
+              description: ''
+              type: string
+            value:
+              format: double
+              description: ''
+              type: number
+            rewardName:
+              description: First 120 characters of the default name
+              type: string
+    Award:
+      description: ''
+      required:
+        - rewardId
+        - entityId
+        - rewardTypeKey
+        - rewardTypeId
+        - value
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - awardId
+            - entityId
+            - rewardId
+            - rewardTypeId
+            - rewardTypeKey
+            - value
+          properties:
+            awardId:
+              description: ''
+              type: string
+            rewardId:
+              description: ''
+              type: string
+            rewardTypeKey:
+              description: ''
+              type: string
+            rewardTypeId:
+              description: ''
+              type: string
+            rewardMetaData:
+              type: object
+              additionalProperties:
+                type: string
+            value:
+              format: double
+              description: ''
+              type: number
+            memberRefId:
+              description: Member Reference id
+              type: string
+            memberId:
+              description: Member id
+              type: string
+            rewardName:
+              description: Firtst 120 characters of the default name
+              type: string
+    WebhookRequestBody:
+      oneOf:
+        -
+          $ref: '#/components/schemas/NewProduct'
+        -
+          $ref: '#/components/schemas/NewMember'
+        -
+          $ref: '#/components/schemas/CompetitionCreated'
+        -
+          $ref: '#/components/schemas/CompetitionStarted'
+        -
+          $ref: '#/components/schemas/CompetitionFinished'
+        -
+          $ref: '#/components/schemas/CompetitionCancelled'
+        -
+          $ref: '#/components/schemas/CompetitionRewardIssued'
+        -
+          $ref: '#/components/schemas/ContestCreated'
+        -
+          $ref: '#/components/schemas/ContestStarted'
+        -
+          $ref: '#/components/schemas/ContestFinished'
+        -
+          $ref: '#/components/schemas/ContestFinalised'
+        -
+          $ref: '#/components/schemas/ContestCancelled'
+        -
+          $ref: '#/components/schemas/ContestRewardCreated'
+        -
+          $ref: '#/components/schemas/ContestRewardIssued'
+        -
+          $ref: '#/components/schemas/ContestRewardClaimed'
+        -
+          $ref: '#/components/schemas/AchievementCreated'
+        -
+          $ref: '#/components/schemas/AchievementTriggered'
+        -
+          $ref: '#/components/schemas/AchievementRewardCreated'
+        -
+          $ref: '#/components/schemas/AchievementRewardIssued'
+        -
+          $ref: '#/components/schemas/AchievementRewardClaimed'
+      discriminator:
+        propertyName: objectType
+      description: ''
   examples:
     GetErrorResponse:
       summary: Example Value
@@ -168,417 +707,20 @@ components:
           limit: 100
         results: []
         errors:
-        - errorCode: 1007
-          message: The error was caused by an invalid ID being submitted
-          detail: []
-  schemas:
-    Response:
-      properties:
-        errors:
-          items:
-            $ref: '#/components/schemas/Error'
-          type: array
-      required:
-      - results
-      type: object
-    Error:
-      properties:
-        modelId:
-          description: The identifier of the record this error relates to (This value
-            only gets set if the error could relate to more than one object)
-          example: 1234abc
-          type: string
-        errorCode:
-          description: A unique system identifier that describes this specific error.
-          example: 1007
-          type: integer
-        message:
-          description: The error description.
-          example: The error was caused by an invalid ID being submitted
-          type: string
-      required:
-      - errorCode
-      - message
-    WebhookRequestBody:
-      anyOf:
-      - type: object
-      - $ref: '#/components/schemas/NewProduct'
-      - $ref: '#/components/schemas/NewMember'
-      - $ref: '#/components/schemas/CompetitionCreated'
-      - $ref: '#/components/schemas/CompetitionStarted'
-      - $ref: '#/components/schemas/CompetitionFinished'
-      - $ref: '#/components/schemas/CompetitionCancelled'
-      - $ref: '#/components/schemas/CompetitionRewardIssued'
-      - $ref: '#/components/schemas/ContestCreated'
-      - $ref: '#/components/schemas/ContestStarted'
-      - $ref: '#/components/schemas/ContestFinished'
-      - $ref: '#/components/schemas/ContestFinalised'
-      - $ref: '#/components/schemas/ContestCancelled'
-      - $ref: '#/components/schemas/ContestRewardCreated'
-      - $ref: '#/components/schemas/ContestRewardIssued'
-      - $ref: '#/components/schemas/ContestRewardClaimed'
-      - $ref: '#/components/schemas/AchievementCreated'
-      - $ref: '#/components/schemas/AchievementTriggered'
-      - $ref: '#/components/schemas/AchievementRewardCreated'
-      - $ref: '#/components/schemas/AchievementRewardIssued'
-      - $ref: '#/components/schemas/AchievementRewardClaimed'
-      description: ""
-    WebhookRequest:
-      description: ""
-      properties:
-        accountId:
-          description: ""
-          type: string
-        headers:
-          additionalProperties:
-            type: string
-          type: object
-        postToUrl:
-          description: ""
-          type: string
-        auth:
-          additionalProperties:
-            type: string
-          type: object
-        body:
-          $ref: '#/components/schemas/WebhookRequestBody'
-        onEventType:
-          description: ""
-          type: string
-      required:
-      - accountId
-      - body
-      - headers
-      - onEventType
-      - postToUrl
-      type: object
-    AchievementCreated:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementCreated_allOf'
-    AchievementRewardClaimed:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementRewardClaimed_allOf'
-    AchievementRewardCreated:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementRewardCreated_allOf'
-    AchievementRewardIssued:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementRewardClaimed_allOf'
-    AchievementTriggered:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementTriggered_allOf'
-    CompetitionCancelled:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
-    CompetitionCreated:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/CompetitionCreated_allOf'
-    CompetitionFinished:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
-    CompetitionRewardIssued:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/CompetitionRewardIssued_allOf'
-    CompetitionStarted:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/CompetitionCancelled_allOf'
-    ContestCancelled:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestCancelled_allOf'
-    ContestCreated:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestCancelled_allOf'
-    ContestFinalised:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestCancelled_allOf'
-    ContestFinished:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestCancelled_allOf'
-    ContestRewardClaimed:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestRewardClaimed_allOf'
-    ContestRewardCreated:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/AchievementRewardCreated_allOf'
-    ContestRewardIssued:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestRewardIssued_allOf'
-    ContestStarted:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/ContestCancelled_allOf'
-    NewMember:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/NewMember_allOf'
-    NewProduct:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/NewProduct_allOf'
-    OptParamModels:
-      properties:
-        customFields:
-          additionalProperties: true
-          type: object
-        tags:
-          description: A list of id's used to tag models
-          items:
-            type: string
-          type: array
-        metadata:
-          additionalProperties:
-            type: string
-          type: object
-        objectType:
-          description: ""
-          type: string
-      required:
-      - objectType
-      type: object
-    Reward:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/Reward_allOf'
-      description: ""
-      required:
-      - entityId
-      - rewardId
-      - rewardTypeId
-      - rewardTypeKey
-      - value
-      type: object
-    Award:
-      allOf:
-      - $ref: '#/components/schemas/OptParamModels'
-      - $ref: '#/components/schemas/Award_allOf'
-      description: ""
-      required:
-      - entityId
-      - rewardId
-      - rewardTypeId
-      - rewardTypeKey
-      - value
-      type: object
-    AchievementCreated_allOf:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-      required:
-      - achievementId
-      type: object
-      example: null
-    AchievementRewardClaimed_allOf:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-        award:
-          $ref: '#/components/schemas/Award'
-      required:
-      - achievementId
-      - award
-      - memberId
-      type: object
-      example: null
-    AchievementRewardCreated_allOf:
-      properties:
-        reward:
-          $ref: '#/components/schemas/Reward'
-      required:
-      - reward
-      type: object
-      example: null
-    AchievementTriggered_allOf:
-      properties:
-        achievementId:
-          description: Achievement identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-      type: object
-      example: null
-    CompetitionCancelled_allOf:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-      required:
-      - competitionId
-      type: object
-      example: null
-    CompetitionCreated_allOf:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-      type: object
-      example: null
-    CompetitionRewardIssued_allOf:
-      properties:
-        competitionId:
-          description: Competition identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        award:
-          $ref: '#/components/schemas/Award'
-      required:
-      - award
-      - competitionId
-      - memberId
-      type: object
-      example: null
-    ContestCancelled_allOf:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-      required:
-      - contestId
-      type: object
-      example: null
-    ContestRewardClaimed_allOf:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        award:
-          $ref: '#/components/schemas/Reward'
-      required:
-      - award
-      - contestId
-      - memberId
-      type: object
-      example: null
-    ContestRewardIssued_allOf:
-      properties:
-        contestId:
-          description: Contest identifier
-          type: string
-        memberId:
-          description: Member identifier
-          type: string
-        award:
-          $ref: '#/components/schemas/Award'
-      required:
-      - award
-      - contestId
-      - memberId
-      type: object
-      example: null
-    NewMember_allOf:
-      properties:
-        memberId:
-          description: Member identifier
-          type: string
-        memberRefId:
-          description: Member Reference id
-          type: string
-      required:
-      - memberId
-      type: object
-      example: null
-    NewProduct_allOf:
-      properties:
-        productId:
-          description: Product identifier
-          type: string
-        productRefId:
-          description: Product Reference id
-          type: string
-      required:
-      - productId
-      type: object
-      example: null
-    Reward_allOf:
-      properties:
-        rewardId:
-          description: ""
-          type: string
-        entityId:
-          description: ""
-          type: string
-        rewardTypeKey:
-          description: ""
-          type: string
-        rewardTypeId:
-          description: ""
-          type: string
-        value:
-          description: ""
-          format: double
-          type: number
-      required:
-      - entityId
-      - rewardId
-      - rewardTypeId
-      - rewardTypeKey
-      - value
-      example: null
-    Award_allOf:
-      properties:
-        awardId:
-          description: ""
-          type: string
-        rewardId:
-          description: ""
-          type: string
-        entityId:
-          description: ""
-          type: string
-        rewardTypeKey:
-          description: ""
-          type: string
-        rewardTypeId:
-          description: ""
-          type: string
-        value:
-          description: ""
-          format: double
-          type: number
-      required:
-      - awardId
-      - entityId
-      - rewardId
-      - rewardTypeId
-      - rewardTypeKey
-      - value
-      example: null
+          -
+            errorCode: 1007
+            message: The error was caused by an invalid ID being submitted
+            detail: []
   securitySchemes:
     adminApiKey:
-      description: The admin API Key generated from Ziqni back office.
-      in: header
-      name: X-API-KEY
       type: apiKey
+      description: The admin API Key generated from Ziqni back office.
+      name: X-API-KEY
+      in: header
+tags:
+  -
+    name: webhooks
+    description: Perform REST operations on Webhooks
+externalDocs:
+  description: Find out more about Ziqni
+  url: 'https://www.ziqni.com'
