@@ -81,7 +81,8 @@ paths:
         -
           name: X-WebhookId
           description: 'The identifier of this webhook '
-          schema: {}
+          schema:
+            type: string
           in: header
       responses:
         '200':
