@@ -265,13 +265,8 @@ components:
         -
           $ref: '#/components/schemas/Reward'
         -
-          required:
-            - achievementId
           type: object
           properties:
-            achievementId:
-              description: Achievement identifier
-              type: string
             achievementName:
               description: First 120 characters of the default name
               type: string
@@ -470,13 +465,8 @@ components:
         -
           $ref: '#/components/schemas/Reward'
         -
-          required:
-            - contestId
           type: object
           properties:
-            contestId:
-              description: Contest identifier
-              type: string
             contestName:
               description: First 120 characters of the default name
               type: string
