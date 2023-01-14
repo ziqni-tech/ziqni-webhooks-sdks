@@ -9,10 +9,12 @@ const Service = require('./Service');
 * userAgent String ZIQNI/1.0 (optional)
 * xAccount String Unique identifier of your account (optional)
 * xOnEvent String depending which webhook you are selecting (optional)
+* xEvent String Event type code (optional)
+* xWebhookId oas_any_type_not_mapped The identifier of this webhook  (optional)
 * body WebhookRequestBody Retrieve Products from Ziqni database by unique Product ID's or any other POST body parameters using the POST method (optional)
 * no response value expected for this operation
 * */
-const onWebhook = ({ acceptEncoding, userAgent, xAccount, xOnEvent, body }) => new Promise(
+const onWebhook = ({ acceptEncoding, userAgent, xAccount, xOnEvent, xEvent, xWebhookId, body }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -20,6 +22,8 @@ const onWebhook = ({ acceptEncoding, userAgent, xAccount, xOnEvent, body }) => n
         userAgent,
         xAccount,
         xOnEvent,
+        xEvent,
+        xWebhookId,
         body,
       }));
     } catch (e) {

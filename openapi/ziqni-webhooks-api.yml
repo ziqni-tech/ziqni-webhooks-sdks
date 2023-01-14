@@ -72,6 +72,17 @@ paths:
               - onNewProduct
             type: string
           in: header
+        -
+          name: X-Event
+          description: Event type code
+          schema:
+            type: string
+          in: header
+        -
+          name: X-WebhookId
+          description: 'The identifier of this webhook '
+          schema: {}
+          in: header
       responses:
         '200':
           description: A webhook was triggered successfully
@@ -389,21 +400,6 @@ components:
             competitionName:
               description: First 120 characters of the default name
               type: string
-    ContestCancelled:
-      allOf:
-        -
-          $ref: '#/components/schemas/OptParamModels'
-        -
-          required:
-            - contestId
-          type: object
-          properties:
-            contestId:
-              description: Contest identifier
-              type: string
-            competitionName:
-              description: First 120 characters of the default name
-              type: string
     ContestCreated:
       allOf:
         -
@@ -685,6 +681,21 @@ components:
       discriminator:
         propertyName: objectType
       description: ''
+    ContestCancelled:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptParamModels'
+        -
+          required:
+            - contestId
+          type: object
+          properties:
+            contestId:
+              description: Contest identifier
+              type: string
+            contestName:
+              description: First 120 characters of the default name
+              type: string
   examples:
     GetErrorResponse:
       summary: Example Value
