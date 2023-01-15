@@ -38,7 +38,7 @@ paths:
           name: User-Agent
           description: Strating ZIQNI/1.0.0
           schema:
-            default: Ziqni/1.0
+            default: ZIQNI/1.0
             type: string
           in: header
         -
