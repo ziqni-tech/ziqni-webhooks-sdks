@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   title: ZIQNI Webhook Services
-  version: 3.0.0
+  version: 1.0.0
   description: Webhook subscriber services intended use is to assist in the creation of a subscriber service.
   contact:
     name: Sales
@@ -36,7 +36,7 @@ paths:
           in: header
         -
           name: User-Agent
-          description: ZIQNI/1.0
+          description: Strating ZIQNI/1.0.0
           schema:
             default: Ziqni/1.0
             type: string
